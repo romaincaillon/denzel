@@ -25,11 +25,11 @@ app.listen(3000, () => {
 });
 
 app.get("/movies", (request, response) => {
-    collection.find({}).toArray((error, result) => {
+    collection.find({"metascore": {$gte: 70}}).toArray((error, result) => {
         if(error) {
             return response.status(500).send(error);
         }
-        response.send(result);
+        response.send(result[Math.floor(Math.random() * result.length)]);
     });
 });
 
@@ -39,5 +39,14 @@ app.get("/movies/:id", (request, response) => {
             return response.status(500).send(error);
         }
         response.send(result);
+    });
+});
+
+app.post("/movies/:id", (request, response) => {
+    collection.insert(request.body, (error, result) => {
+        if(error) {
+            return response.status(500).send(error);
+        }
+        response.send(result.result);
     });
 });
