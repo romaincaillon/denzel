@@ -1,4 +1,3 @@
-/* eslint-disable no-console, no-process-exit */
 const imdb = require('./src/imdb');
 const DENZEL_IMDB_ID = 'nm0000243';
 const MongoClient = require('mongodb').MongoClient;
