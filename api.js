@@ -33,8 +33,11 @@ app.get("/movies", (request, response) => {
     });
 });
 
-app.get("/movies/:id", (request, response) => {
-    collection.findOne({ "_id": new ObjectId(request.params.id) }, (error, result) => {
+app.get("/movies/search", (request, response) => {
+    var limit = (request.query.limit === undefined ? 5 : parseInt(request.query.limit));
+    var metascore = (request.query.metascore === undefined ? 0 : parseInt(request.query.metascore));
+
+    collection.find({"metascore": {$gte: metascore}}).limit(limit).toArray((error, result) => {
         if(error) {
             return response.status(500).send(error);
         }
@@ -42,11 +45,11 @@ app.get("/movies/:id", (request, response) => {
     });
 });
 
-app.post("/movies/:id", (request, response) => {
-    collection.insert(request.body, (error, result) => {
+app.get("/movies/:id", (request, response) => {
+    collection.findOne({ "id": request.params.id }, (error, result) => {
         if(error) {
             return response.status(500).send(error);
         }
-        response.send(result.result);
+        response.send(result);
     });
 });
