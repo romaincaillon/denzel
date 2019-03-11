@@ -53,3 +53,23 @@ app.get("/movies/:id", (request, response) => {
         response.send(result);
     });
 });
+
+app.post("/movies/:id", (request, response) => {
+    if(request.body.review === undefined || request.body.date === undefined) {
+        return response.status(400).send("You have to specify review and date");
+    }
+    collection.update({"id": request.params.id}, {$set: {"date": request.body.date, "review": request.body.review}}, (error, result) => {
+        if(error) {
+            return response.status(500).send(error);
+        }
+    });
+    collection.findOne({"id": request.params.id}, (error, result) => {
+        if(error) {
+            return response.status(500).send(error);
+        }
+        result = {
+          "_id": result._id
+        };
+        response.send(result);
+    });
+});
