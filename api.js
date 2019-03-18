@@ -3,6 +3,9 @@ const BodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectID;
 
+const imdb = require('./src/imdb');
+const DENZEL_IMDB_ID = 'nm0000243';
+
 const CONNECTION_URL = "mongodb+srv://romain:QXTmUHic3AJkONQK@cluster0-4c157.mongodb.net/test?retryWrites=true";
 const DATABASE_NAME = "movies";
 
@@ -22,6 +25,20 @@ app.listen(3000, () => {
         collection = database.collection("movies");
         console.log("Connected to `" + DATABASE_NAME + "`!");
     });
+});
+
+app.get("/movies/populate", async (request, response) => {
+    try {
+      const movies = await imdb(DENZEL_IMDB_ID);
+      collection.insertMany(movies);
+      result = {
+        "total": movies.length
+      };
+      response.send(result);
+    } catch (e) {
+      console.error(e);
+      return response.status(500).send("Error trying to populate the database");
+    }
 });
 
 app.get("/movies", (request, response) => {
