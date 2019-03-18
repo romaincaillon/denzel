@@ -9,10 +9,9 @@ async function sandbox(actor) {
     const client = new MongoClient(uri, { useNewUrlParser: true });
     client.connect(err => {
       const collection = client.db("movies").collection("movies");
-      collection.insert(movies);
+      collection.insertMany(movies);
       client.close();
     });
-
   } catch (e) {
     console.error(e);
     process.exit(1);
