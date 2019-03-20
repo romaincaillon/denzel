@@ -1,3 +1,5 @@
+The API has been deployed on https://denzel-rcaillon.herokuapp.com
+
 # DENZEL
 
 > The must-watch Denzel's movies
