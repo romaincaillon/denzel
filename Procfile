@@ -1,1 +1,1 @@
-web: node server_heroku.js
+web: node server.js
