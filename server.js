@@ -3,11 +3,7 @@ const BodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectID;
 
-const GraphqlHTTP = require('express-graphql');
-const {GraphQLSchema} = require('graphql');
-const {queryType} = require('../query.js');
-
-const imdb = require('../src/imdb');
+const imdb = require('./src/imdb');
 const DENZEL_IMDB_ID = 'nm0000243';
 
 const CONNECTION_URL = "mongodb+srv://romain:QXTmUHic3AJkONQK@cluster0-4c157.mongodb.net/test?retryWrites=true";
@@ -19,12 +15,6 @@ app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
 
 var database, collection;
-
-const schema = new GraphQLSchema({ query: queryType });
-app.use('/graphql', GraphqlHTTP({
-    schema: schema,
-    graphiql: true,
-}));
 
 app.listen(9292, () => {
     MongoClient.connect(CONNECTION_URL, { useNewUrlParser: true }, (error, client) => {
