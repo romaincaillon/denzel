@@ -29,6 +29,12 @@ app.listen(port, () => {
     });
 });
 
+app.get('/', (req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.write('Welcome!');
+  res.end();
+});
+
 app.get("/movies/populate", async (request, response) => {
     try {
       const movies = await imdb(DENZEL_IMDB_ID);
